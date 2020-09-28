@@ -1,12 +1,9 @@
 <?php
 
-require("conexion.php");
+    require("conexion.php");
 
-unset($_SESSION["activo"]);
+    unset($_SESSION["activo"]);
 
-
-
-echo '<script>location.href="index.php";</script>';
-
+    echo '<script>location.href="index.php";</script>';
 
 ?>
