@@ -1,13 +1,14 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.2
+-- version 4.8.0.1
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 28-09-2020 a las 03:24:31
--- Versión del servidor: 10.4.14-MariaDB
--- Versión de PHP: 7.4.10
+-- Tiempo de generación: 04-10-2020 a las 20:58:38
+-- Versión del servidor: 10.1.32-MariaDB
+-- Versión de PHP: 7.2.5
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -46,25 +47,52 @@ INSERT INTO `pagos` (`id`, `monto`, `fecha`, `status`, `usuario`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `socios`
+--
+
+CREATE TABLE `socios` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
+  `email` varchar(255) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
+  `status` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `tareas`
 --
 
 CREATE TABLE `tareas` (
   `id` int(11) NOT NULL,
-  `tipo` varchar(25) NOT NULL,
   `url` varchar(255) NOT NULL,
   `valor` varchar(100) NOT NULL,
-  `dataextra` varchar(255) NOT NULL
+  `dataextra` varchar(255) NOT NULL,
+  `socio` int(11) NOT NULL,
+  `limite` int(11) NOT NULL,
+  `status` tinyint(1) NOT NULL,
+  `tipo` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `tareas`
 --
 
-INSERT INTO `tareas` (`id`, `tipo`, `url`, `valor`, `dataextra`) VALUES
-(1, 'video', 'https://www.youtube.com/watch?v=4xhs0ir6Xjs', '10', ''),
-(2, 'video', 'dwadwadwa', '20', ''),
-(3, 'video', 'wdadwa', '12', '');
+INSERT INTO `tareas` (`id`, `url`, `valor`, `dataextra`, `socio`, `limite`, `status`, `tipo`) VALUES
+(1, 'https://www.youtube.com/watch?v=4xhs0ir6Xjs', '10', '', 0, 0, 0, 0),
+(2, 'dwadwadwa', '20', '', 0, 0, 0, 0),
+(3, 'wdadwa', '12', '', 0, 0, 0, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tipo_tarea`
+--
+
+CREATE TABLE `tipo_tarea` (
+  `id` int(11) NOT NULL,
+  `nombre` varchar(45) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -95,19 +123,18 @@ INSERT INTO `usuarios` (`id`, `nombreCompleto`, `Direccion`, `correoPaypal`, `fo
 --
 
 CREATE TABLE `u_t` (
+  `id` int(11) NOT NULL,
   `id_u` int(10) NOT NULL,
   `id_t` int(10) NOT NULL,
-  `views` varchar(255) NOT NULL,
-  `fecha` varchar(255) NOT NULL,
-  `renovacion` varchar(255) NOT NULL
+  `fecha` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `u_t`
 --
 
-INSERT INTO `u_t` (`id_u`, `id_t`, `views`, `fecha`, `renovacion`) VALUES
-(1, 1, '1', '26/09/2020', '27/09/2020');
+INSERT INTO `u_t` (`id`, `id_u`, `id_t`, `fecha`) VALUES
+(1, 1, 1, '26/09/2020');
 
 --
 -- Índices para tablas volcadas
@@ -121,9 +148,23 @@ ALTER TABLE `pagos`
   ADD KEY `usuario` (`usuario`);
 
 --
+-- Indices de la tabla `socios`
+--
+ALTER TABLE `socios`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indices de la tabla `tareas`
 --
 ALTER TABLE `tareas`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `socio` (`socio`),
+  ADD KEY `tipo` (`tipo`);
+
+--
+-- Indices de la tabla `tipo_tarea`
+--
+ALTER TABLE `tipo_tarea`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -136,8 +177,9 @@ ALTER TABLE `usuarios`
 -- Indices de la tabla `u_t`
 --
 ALTER TABLE `u_t`
-  ADD PRIMARY KEY (`id_u`,`id_t`),
-  ADD KEY `id_t` (`id_t`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_t` (`id_t`),
+  ADD KEY `id_u` (`id_u`,`id_t`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
@@ -150,16 +192,34 @@ ALTER TABLE `pagos`
   MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT de la tabla `socios`
+--
+ALTER TABLE `socios`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de la tabla `tareas`
 --
 ALTER TABLE `tareas`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT de la tabla `tipo_tarea`
+--
+ALTER TABLE `tipo_tarea`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
   MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT de la tabla `u_t`
+--
+ALTER TABLE `u_t`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Restricciones para tablas volcadas
@@ -170,6 +230,18 @@ ALTER TABLE `usuarios`
 --
 ALTER TABLE `pagos`
   ADD CONSTRAINT `pagos_ibfk_1` FOREIGN KEY (`usuario`) REFERENCES `usuarios` (`id`) ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `socios`
+--
+ALTER TABLE `socios`
+  ADD CONSTRAINT `socios_ibfk_1` FOREIGN KEY (`id`) REFERENCES `tareas` (`socio`);
+
+--
+-- Filtros para la tabla `tipo_tarea`
+--
+ALTER TABLE `tipo_tarea`
+  ADD CONSTRAINT `tipo_tarea_ibfk_1` FOREIGN KEY (`id`) REFERENCES `tareas` (`tipo`);
 
 --
 -- Filtros para la tabla `u_t`

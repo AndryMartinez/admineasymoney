@@ -1,16 +1,13 @@
 <?php
     require("conexion.php");
-
-    if (!isset($_SESSION["activo"])) {
-        echo '<script>location.href="index.php";</script>';
+    if (!isset($_SESSION["activo"])){
+      echo '<script>location.href="index.php";</script>';
     }
 
 ?>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
   <title>Simple Sidebar - Start Bootstrap Template</title>
   <meta charset="utf-8">
   <meta name="description" content="">
@@ -77,7 +74,6 @@
           </ul>
         </div>
       </nav>
-
       <div class="container-fluid">
         <div class="card-body">
           <div class="card-title" style="font-size:25px">
@@ -90,13 +86,35 @@
             </a>
           </div>
         </div>
-        <div class="list-group">
-          <button type="button" class="list-group-item list-group-item-action">Totorial cambio de fondo after effects <span class="badge badge-primary badge-pill">1</span></button>
-          <button type="button" class="list-group-item list-group-item-action">Morbi leo risus</button>
-          <button type="button" class="list-group-item list-group-item-action">Porta ac consectetur ac</button>
-          <button type="button" class="list-group-item list-group-item-action">Vestibulum at eros</button>
-          <br>
-        </div>  
+        <table class="table table-bordered">
+          <thead class="thead-light">
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">First</th>
+              <th scope="col">Last</th>
+              <th scope="col">Handle</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">1</th>
+              <td>Mark</td>
+              <td>Otto</td>
+              <td>@mdo</td>
+            </tr>
+            <tr>
+              <th scope="row">2</th>
+              <td>Jacob</td>
+              <td>Thornton</td>
+              <td>@fat</td>
+            </tr>
+            <tr>
+              <th scope="row">3</th>
+              <td colspan="2">Larry the Bird</td>
+              <td>@twitter</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
     <!-- /#page-content-wrapper -->
