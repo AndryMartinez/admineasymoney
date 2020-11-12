@@ -1,10 +1,3 @@
-<?php
-    require("conexion.php");
-    if (!isset($_SESSION["activo"])){
-      echo '<script>location.href="index.php";</script>';
-    }
-
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -28,6 +21,17 @@
         background-color: purple !important;
         border-color: purple !important;
     }
+    .btn-outline-success{
+        border-color: purple !important;
+        color: purple !important;
+    }
+    .btn-outline-success:focus,
+    .btn-outline-success:hover,
+    .btn-outline-success:active{
+      background-color: purple !important;
+      border-color: purple !important;
+      color: white !important;
+    }
   </style>
 </head>
 
@@ -44,10 +48,12 @@
         </a>
       </div>
       <div class="list-group list-group-flush">
-        <a href="#" class="list-group-item list-group-item-action bg-light">Tareas</a>
-        <a href="#" class="list-group-item list-group-item-action bg-light">Pagos</a>
-        <a href="#" class="list-group-item list-group-item-action bg-light">Estadísticas</a>
-        <a href="#" class="list-group-item list-group-item-action bg-light">Configuración del Sistema</a>
+        <a href="./" class="list-group-item list-group-item-action">Usuarios</a>
+        <a href="?c=tareas" class="list-group-item list-group-item-action list-group-item-secondary">Tareas</a>
+        <a href="?c=admin" class="list-group-item list-group-item-action">Administración</a>
+        <a href="?c=pagos" class="list-group-item list-group-item-action">Pagos</a>
+        <a href="?c=statistics" class="list-group-item list-group-item-action">Estadísticas</a>
+        <a href="?c=config" class="list-group-item list-group-item-action">Configuración del Sistema</a>
       </div>
     </div>
     <!-- /#sidebar-wrapper -->
@@ -69,16 +75,16 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
             <li class="nav-item">
-              <a class="nav-link" href="logout.php">Salir</a>
+              <a class="nav-link" href="?c=logout">Salir</a>
             </li>
           </ul>
         </div>
       </nav>
       <div class="container-fluid">
         <div class="card-body">
-          <div class="card-title" style="font-size:25px">
-            Tareas
-            <a href="add.php?tarea=1"  class="btn btn-outline-success float-right" style="width: 8rem">
+          <div class="card-title align-items-center row" style="font-size:25px">
+            <h1 class="display-4 col-auto mr-auto">Tareas</h1>
+            <a href="add.php?tarea=1"  class="btn btn-outline-success float-right px-4 col-auto">
               Agregar
               <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-plus" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
@@ -87,7 +93,7 @@
           </div>
         </div>
         <table class="table table-bordered">
-          <thead class="thead-light">
+          <thead class="thead-dark">
             <tr>
               <th scope="col">#</th>
               <th scope="col">First</th>
